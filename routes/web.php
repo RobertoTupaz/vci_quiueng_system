@@ -1,0 +1,31 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
+|
+*/
+
+Route::view('/', function() {
+    return 'Hello World!!!';
+});
+
+Route::middleware(['auth', 'verified'])->group(function() {
+    Route::view('dashboard', 'dashboard')->name('dashboard');
+    Route::view('profile', 'profile')->name('profile');
+    Route::view('counter', 'counter')->name('counter');
+});
+
+Route::get('/notify', function() {
+    notify()->success('Laravel Notify is awesome!');
+    return redirect()->back();
+})->name('notify');
+
+require __DIR__.'/auth.php';
