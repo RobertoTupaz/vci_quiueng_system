@@ -52,6 +52,20 @@
                             <input id="vue-checkbox-list" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
                             <label for="vue-checkbox-list" class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Vue JS</label>
                         </div>
+                        <div class="flex items-center ps-3">
+                            <div class="relative" x-data="{ addRole: false }">
+                                <button @click="addRole = !addRole" type="button" class="py-1.5 px-2 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Add role</button>
+                                <!-- Floating Component -->
+                                <div x-show="addRole" @click.outside="addRole = false" class="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 w-48 bg-white shadow-lg rounded-lg p-4">
+                                    <span>Role name</span>
+                                    <input type="text" class="w-full rounded" placeholder="Role name">
+                                    <div class="w-full flex justify-evenly">
+                                        <button @click="addRole = false" class="mt-2 text-sm text-red-500">Close</button>
+                                        <button wire:click='saveRole' class="mt-2 text-sm text-green-500">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="w-full h-auto flex justify-center">

@@ -10,6 +10,7 @@ class Add extends Component
     public $username;
     public $password;
     public $roles = [];
+    public $newRole = null;
 
     public function render()
     {
