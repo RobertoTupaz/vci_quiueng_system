@@ -33,30 +33,32 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        1
-                    </th>
-                    <td class="px-6 py-4">
-                        TOR, Statement of account
-                    </td>
-                    <td class="px-6 py-4">
-                        counter1
-                    </td>
-                    <td class="px-6 py-4">
-                        @Password123
-                    </td>
-                    <td class="px-6 py-4">
-                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                        |
-                        <a href="#" class="font-medium text-red-600 dark:text-blue-500 hover:underline">Delete</a>
-                    </td>
-                </tr>
+                @foreach ($counters as $counter)
+                    <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{$counter->number}}
+                        </th>
+                        <td class="px-6 py-4">
+                            {{ $counter->roles->pluck('name')->join(', ') }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{$counter->email}}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{$counter->password}}
+                        </td>
+                        <td class="px-6 py-4">
+                            <a @click="edit = ! edit" href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                            |
+                            <a href="#" class="font-medium text-red-600 dark:text-blue-500 hover:underline">Delete</a>
+                        </td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
     </div>
     @livewire('counter.component.crud.add')
-    {{-- @livewire('counter.component.crud.edit')
-    @livewire('counter.component.crud.delete') --}}
-    {{-- @livewire('counter.component.crud.add', ['user' => $user], key($user->id)) --}}
+    @livewire('counter.component.crud.edit', ['counter' => $counter])
+    {{-- @livewire('counter.component.crud.delete') --}}
+    {{-- @livewire('counter.component.crud.add', ['user' => $user], key($user->id)) $userId --}}
 </div>

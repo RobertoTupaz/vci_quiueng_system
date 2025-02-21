@@ -25,7 +25,7 @@ class Add extends Component
             'email' => $this->username,
             'password' => $this->password,
             'role' => 'counter',
-            'number' => $this->counterNumber,
+            'number' => (int) $this->counterNumber,
         ]);
 
         if($query) {
