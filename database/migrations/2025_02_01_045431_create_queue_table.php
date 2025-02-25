@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -14,16 +13,22 @@ return new class extends Migration
         Schema::create('queue', function (Blueprint $table) {
             $table->id();
             $table->foreignId('transaction_id')->constrained(
-                table: 'transactions', indexName: 'queue_transaction_id'
+                table: 'transactions',
+                indexName: 'queue_transaction_id'
             )->onDelete('cascade');
             $table->string('ticket_number');
             $table->char('ticket_letter');
             $table->string('priority_level');
             $table->string('status');
             $table->foreignId('user_id')->constrained(
-                table: 'users', indexName: 'queue_user_id'
+                table: 'users',
+                indexName: 'queue_user_id'
             )->onDelete('cascade');
             $table->integer('queue_count');
+            $table->foreignId('role_id')->constrained(
+                table: 'roles',
+                indexName: 'transaction_role'
+            )->onDelete('cascade');
             $table->timestamps();
         });
     }

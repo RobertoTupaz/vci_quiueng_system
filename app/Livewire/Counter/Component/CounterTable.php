@@ -4,18 +4,20 @@ namespace App\Livewire\Counter\Component;
 
 use App\Models\User;
 use Livewire\Component;
+use Livewire\Attributes\On;
 
 class CounterTable extends Component
 {
-    protected $listeners = ['counterUpdated' => 'refreshCounters'];
-
     public $counters = null;
 
-    public function mount(){
+    public function mount()
+    {
         $this->refreshCounters();
     }
 
-    public function refreshCounters() {
+    #[On('refresh-counters')]
+    public function refreshCounters()
+    {
         $this->counters = User::where('role', 'counter')->orderBy('number', 'ASC')->get();
     }
 

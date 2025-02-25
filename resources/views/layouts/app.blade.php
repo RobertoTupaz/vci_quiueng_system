@@ -13,7 +13,7 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-        @notifyCss
+        {{-- @notifyCss --}}
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
@@ -33,7 +33,12 @@
                 {{ $slot }}
             </main>
         </div>
-        <x-notify::notify />
-        @notifyJs
+        {{-- <x-notify::notify /> --}}
+        {{-- @notifyJs --}}
+        @livewireScripts
+
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        
+        <x-livewire-alert::scripts />
     </body>
 </html>

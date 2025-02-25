@@ -4,45 +4,88 @@ namespace App\Livewire\Counter\Component\Crud;
 
 use App\Models\Role;
 use App\Models\User;
+use App\Models\UserRoles;
+use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
-use Livewire\Attributes\On; 
+use Livewire\Attributes\On;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class Edit extends Component
-{   
-    public $showModal = false;
+{
+    use LivewireAlert;
 
-    public $counterID, $counterNumber, $email, $password;
-
-    public $roles;
-    public $newRole = null;
+    public $id, $number, $email, $password, $password2;
+    public $roles = [];
+    public $allRoles = [];
     public $checkedRoles = [];
 
-    #[On('open-edit-modal')]
-    public function openEditModal($counterID) {
-        $counter = User::find($counterID);
-        
-        $this->counterID = $counterID;
-        $this->counterNumber = $counter->number;
-        $this->email = $counter->number;
-        $this->password = $counter->number;
-        $this->checkedRoles = $counter->roles->pluck('id')->toArray();
+    #[On('added-role')]
+    public function getRoles()
+    {
+        $this->allRoles = Role::all();
+    }
+
+    public function mount($counter)
+    {
         $this->getRoles();
-
-        // dd($this->counterRoles);
-        $this->showModal = true;
+        $this->innitialize($counter);
     }
 
-    public function getRoles() {
-        $this->roles = Role::all();
+    public function innitialize($counter)
+    {
+        $this->checkedRoles = $counter->roles->pluck('id')->toArray();
+
+        $this->id = $counter->id;
+        $this->number = $counter->number;
+        $this->email = $counter->email;
+        $this->password = $counter->password;
+        $this->password2 = $counter->password2;
+        $this->roles = $counter->roles->pluck('name')->join(', ');
     }
 
-    public function mount() {
-        // $counter = User::find($id);
-        
-        // $this->counterNumber = $counter->number;
-        // $this->email = $counter->number;
-        // $this->password = $counter->number;
-        // $this->getRoles();
+    public function update()
+    {
+        $query = User::where('id', $this->id)->update([
+            'name' => 'Couter ' . $this->number,
+            'email' => $this->email,
+            'number' => $this->number,
+            'password' => Hash::make($this->password2),
+            'password2' => $this->password2,
+        ]);
+
+        if ($query) {
+            UserRoles::where('user_id', $this->id)->delete();
+            foreach ($this->checkedRoles as $key => $value) {
+                $query2 = UserRoles::create([
+                    'user_id' => $this->id,
+                    'role_id' => $value,
+                ]);
+            }
+
+            // $this->resetExcept('roles');
+        }
+        if ($query) {
+            $this->alert('success', 'Basic Alert');
+            $this->cancelEdit();
+            $this->dispatch('update-row', id: $this->id);
+        }
+    }
+
+    public function notif()
+    {
+        // $this->alert('success', 'Basic Alert');
+        //success, warning, error, info, question
+    }
+
+    public function cancelEdit()
+    {
+        $this->dispatch('cancel-edit', id: 1);
+    }
+
+    public function delete()
+    {
+        $this->counter->delete();
+        $this->emit('counterUpdated'); // Notify parent to refresh
     }
 
     public function render()
