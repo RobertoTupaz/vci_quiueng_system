@@ -2,13 +2,14 @@
     <div class="text-center mb-4">
         <span class="text-2xl font-serif">VCI Queuing System</span>
     </div>
-    <label for="default" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Choose a Transaction</label>
-    <select id="default" class="bg-gray-50 border border-gray-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-        <option selected>Choose a Transaction</option>
-        @foreach ($transaction as $item)
+    <label for="default" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Choose a Transaction Method</label>
+    <select wire:model='selectedRole' id="default" class="bg-gray-50 border border-gray-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        <option selected value="not set">Method</option>
+        @foreach ($roles as $item)
             <option value="{{$item->id}}">{{$item->name}}</option>
         @endforeach
-    </select><label for="default" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Choose a Priority Level</label>
+    </select>
+    <label for="default" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Choose a Priority Level</label>
     <select wire:model='priorityLevel' id="default" class="bg-gray-50 border border-gray-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
         <option value="normal" selected>Normal</option>
         <option value="priority">Priority</option>

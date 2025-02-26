@@ -10,25 +10,21 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('queue', function (Blueprint $table) {
+        Schema::create('queues', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('transaction_id')->constrained(
-                table: 'transactions',
-                indexName: 'queue_transaction_id'
-            )->onDelete('cascade');
-            $table->string('ticket_number');
-            $table->char('ticket_letter');
-            $table->string('priority_level');
-            $table->string('status');
-            $table->foreignId('user_id')->constrained(
-                table: 'users',
-                indexName: 'queue_user_id'
-            )->onDelete('cascade');
-            $table->integer('queue_count');
             $table->foreignId('role_id')->constrained(
                 table: 'roles',
                 indexName: 'transaction_role'
             )->onDelete('cascade');
+            $table->string('ticket_number');
+            $table->char('ticket_letter');
+            $table->enum('priority_level', ['normal', 'priority'])->default('normal');
+            $table->boolean('status')->default(false);
+            $table->foreignId('user_id')->nullable()->constrained(
+                table: 'users',
+                indexName: 'queue_user_id'
+            )->onDelete('cascade')->nullOnDelete();
+            // $table->integer('queue_count')->default(1);
             $table->timestamps();
         });
     }

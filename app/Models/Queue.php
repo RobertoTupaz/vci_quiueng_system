@@ -9,7 +9,7 @@ class Queue extends Model
 {
     protected $tables = 'queue';
     protected $fillable = [
-        'transaction',
+        'role_id',
         'ticket_number',
         'ticket_letter',
         'priority_level',
