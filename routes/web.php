@@ -13,17 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/', 'welcome');
+Route::view('/', 'base');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('dashboard', 'dashboard')->name('dashboard');
     Route::view('profile', 'profile')->name('profile');
     Route::view('counter', 'counter')->name('counter');
 });
-
-Route::get('/notify', function () {
-    notify()->success('Laravel Notify is awesome!');
-    return redirect()->back();
-})->name('notify');
 
 require __DIR__ . '/auth.php';
