@@ -21,4 +21,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('counter', 'counter')->name('counter');
 });
 
+Route::middleware(['counter'])->group(function() {
+    Route::view('/counter/dashboard','counter_ui')->name('counter_dashboard');
+});
+
 require __DIR__ . '/auth.php';

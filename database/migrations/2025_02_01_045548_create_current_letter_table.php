@@ -13,12 +13,18 @@ return new class extends Migration {
     {
         Schema::create('current_letter', function (Blueprint $table) {
             $table->id();
-            $table->string('letter');
+            $table->string('letter')->default('-');
             $table->string('number');
             $table->timestamps();
         });
 
+    }
 
+    public function createCurrentLeter() {
+        CurrentLetter::create([
+            'letter' => '-',
+            'number' => 1
+        ]);
     }
 
     public function createCurrentLetterRow()
