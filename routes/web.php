@@ -15,14 +15,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'base');
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::view('dashboard', 'dashboard')->name('dashboard');
     Route::view('profile', 'profile')->name('profile');
     Route::view('counter', 'counter')->name('counter');
 });
 
-Route::middleware(['counter'])->group(function() {
-    Route::view('/counter/dashboard','counter_ui')->name('counter_dashboard');
+Route::middleware(['auth', 'role:counter'])->group(function () {
+    Route::view('/counter/dashboard', 'counter_ui')->name('counter_dashboard');
 });
 
 require __DIR__ . '/auth.php';

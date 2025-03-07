@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->string('ticket_number');
             $table->char('ticket_letter');
             $table->enum('priority_level', ['normal', 'priority'])->default('normal');
-            $table->boolean('status')->default(false);
+            $table->enum('status', ['new', 'ongoing', 'done'])->default('new');
             $table->foreignId('user_id')->nullable()->constrained(
                 table: 'users',
                 indexName: 'queue_user_id'

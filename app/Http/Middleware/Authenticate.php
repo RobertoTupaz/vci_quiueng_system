@@ -13,12 +13,6 @@ class Authenticate extends Middleware
      */
     protected function redirectTo(Request $request): ?string
     {
-        Log::info(auth()->check() || auth()->user()->isCounter());
-        
-        if (auth()->check() || auth()->user()->isCounter()) {
-            return redirect('/counter/dashboard'); // Redirect to some other page if not admin
-        }
-
         return $request->expectsJson() ? null : route('login');
     }
 }

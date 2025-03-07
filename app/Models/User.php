@@ -52,7 +52,7 @@ class User extends Authenticatable
     protected function password(): Attribute
     {
         return Attribute::make(
-            set: fn ($value) => Hash::make($value)
+            set: fn($value) => Hash::make($value)
         );
     }
 
@@ -65,8 +65,9 @@ class User extends Authenticatable
     {
         return $this->roles()->where('name', $roleName)->exists();
     }
-    
-    public function isCounter() {
+
+    public function isCounter()
+    {
         return $this->role === 'counter';
     }
 }

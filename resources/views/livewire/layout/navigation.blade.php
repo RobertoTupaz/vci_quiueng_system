@@ -31,16 +31,25 @@ new class extends Component
                     </div>
                 </div>
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('counter')" :active="request()->routeIs('counter')" wire:navigate>
-                        {{ __('Counter') }}
-                    </x-nav-link>
-                </div>
+                @if (auth()->user()->role === 'admin')
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
+                            {{ __('Dashboard') }}
+                        </x-nav-link>
+                    </div>
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('counter')" :active="request()->routeIs('counter')" wire:navigate>
+                            {{ __('Counter') }}
+                        </x-nav-link>
+                    </div>
+                @endif
+                @if (auth()->user()->role === 'counter')
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('counter_dashboard')" :active="request()->routeIs('counter_dashboard')" wire:navigate>
+                            {{ __('Counter Dashboard') }}
+                        </x-nav-link>
+                    </div>
+                @endif
             </div>
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
@@ -58,9 +67,11 @@ new class extends Component
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('profile')" wire:navigate>
-                            {{ __('Profile') }}
-                        </x-dropdown-link>
+                        @if (auth()->user()->role === 'admin')
+                            <x-dropdown-link :href="route('profile')" wire:navigate>
+                                {{ __('Profile') }}
+                            </x-dropdown-link>
+                        @endif
 
                         <!-- Authentication -->
                         <button wire:click="logout" class="w-full text-start">
