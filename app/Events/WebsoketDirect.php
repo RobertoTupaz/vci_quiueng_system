@@ -1,7 +1,7 @@
 <?php
     namespace App\Events;
 
-use Pusher\Pusher;
+    use Pusher\Pusher;
 
     require_once __DIR__ . '/../../vendor/autoload.php';
 

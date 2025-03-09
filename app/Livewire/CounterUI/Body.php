@@ -2,15 +2,10 @@
 
 namespace App\Livewire\CounterUI;
 
-use App\Events\BroadcastEvent as EventsBroadcastEvent;
 use App\Models\Queue;
-use App\Models\User;
-use BroadcastEvent;
-use Illuminate\Contracts\Database\Eloquent\Builder;
+use App\TextToSpeech\VoiceRSS;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Livewire\Component;
-use Pusher\Pusher;
 use App\Events\WebsoketDirect;
 
 class Body extends Component
@@ -65,6 +60,12 @@ class Body extends Component
 
         new WebsoketDirect();
         new WebsoketDirect('auth');
+        $voiceRRS = new VoiceRSS();
+        $voiceRRS->speech([
+            'key' => '9dd92be563d74e838153b1f9837360c2',
+            'src' => 'A0001',
+            'hl' => 'en-us'
+        ]);
     }
 
     public function previous() {
