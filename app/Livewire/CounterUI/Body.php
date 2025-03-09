@@ -7,11 +7,14 @@ use App\TextToSpeech\VoiceRSS;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use App\Events\WebsoketDirect;
+use Carbon\Carbon;
+use Livewire\Attributes\On;
 
 class Body extends Component
 {
     public $queue;
     public $doneQueue;
+    public $audio;
 
     public function serveQueue()
     {
@@ -46,6 +49,7 @@ class Body extends Component
     public function mount()
     {
         $this->getOngoingQueue();
+        $this->audio = asset('audio/speech.mp3');
     }
 
     public function next() {
@@ -57,15 +61,51 @@ class Body extends Component
 
         $this->getOngoingQueue();
         $this->serveQueue();
+        
+        $this->audio = $this->setAudio($this->getTicket());
+        if($this->audio) {
+            $this->dispatch('play-audio', ['data' => '$this->audio']);
+            new WebsoketDirect($this->audio);
+        } else {
+            new WebsoketDirect();
+        }
+    }
 
-        new WebsoketDirect();
-        new WebsoketDirect('auth');
-        $voiceRRS = new VoiceRSS();
-        $voiceRRS->speech([
-            'key' => '9dd92be563d74e838153b1f9837360c2',
-            'src' => 'A0001',
-            'hl' => 'en-us'
-        ]);
+    public function notifyBase() {
+        $this->audio = $this->setAudio($this->getTicket());
+        if($this->audio) {
+            $this->dispatch('play-audio', ['data' => '$this->audio']);
+            new WebsoketDirect($this->audio);
+        } else {
+            new WebsoketDirect();
+        }
+    }
+
+    public function getTicket() {
+        if($this->queue) {
+            $letter = $this->queue->ticket_letter;
+            $zeros = addZeroes(strlen($this->queue->ticket_number));
+            $number = $this->queue->ticket_number;
+            $ticket = $letter.$zeros.$number;
+            return 'Now Serving '.$ticket.', Please Proceed to counter '.auth()->user()->number;
+        }
+    }
+
+    public function setAudio($text) {
+
+        $apiKey = "9dd92be563d74e838153b1f9837360c2";
+        $url = "https://api.voicerss.org/?key=$apiKey&hl=en-us&src=" . urlencode($text);
+
+        $audio = file_get_contents($url);
+
+        if (!$audio) {
+            die("Error fetching audio from VoiceRSS.");
+        }
+    
+        file_put_contents(public_path('audio\speech.mp3'), $audio);
+
+        $timestamp = Carbon::now()->timestamp;
+        return asset('audio/speech.mp3?t='.$timestamp);
     }
 
     public function previous() {
@@ -79,8 +119,13 @@ class Body extends Component
         $this->getDone();
         $this->getOngoingQueue();
 
-        new WebsoketDirect();
-        new WebsoketDirect('auth');
+        $this->audio = $this->setAudio($this->getTicket());
+        if($this->audio) {
+            $this->dispatch('play-audio', ['data' => '$this->audio']);
+            new WebsoketDirect($this->audio);
+        } else {
+            new WebsoketDirect();
+        }
     }
 
     public function getDone() {

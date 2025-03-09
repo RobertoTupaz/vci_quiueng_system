@@ -5,6 +5,8 @@ namespace App\TextToSpeech;
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 use Exception;
+use Illuminate\Support\Facades\Log as FacadesLog;
+use Log;
 class VoiceRSS
 {
 	public function speech($settings) {
@@ -34,6 +36,8 @@ class VoiceRSS
 		curl_close($ch);
 		
 		$is_error = strpos($resp, 'ERROR') === 0;
+
+		FacadesLog::info($resp);
 	    
     	return array(
     		'error' => ($is_error) ? $resp : null,

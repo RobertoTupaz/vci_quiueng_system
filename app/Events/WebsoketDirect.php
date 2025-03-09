@@ -24,12 +24,14 @@
 
       $message = 'null';
 
-      if($data == 'auth') {
-        $this->pusher->trigger('queues', 'active-updated', $message);
-      } else {
-        $this->pusher->trigger('queues', 'queues-updated', $message);
-      }
+      // $this->pusher->trigger('queues', 'active-updated', $message);
+      $this->pusher->trigger('queues', 'queues-updated', $data);
 
+      // if($data == 'auth') {
+
+      // } else {
+        
+      // }
     }
 
   }

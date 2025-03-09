@@ -1,6 +1,6 @@
 <div class="w-full h-base-body grid grid-cols-12 gap-2">
     <div class="col-span-12 sm:col-span-8 bg-green-100 text-white text-center shadow-xl rounded-2xl border">{{-- transform hover:scale-105 transition-all duration-300 --}}
-        <div class="w-full text-center text-yellow-400 bg-green-100 py-2">
+        <div class="border-b-2 rounded-md w-full text-center text-yellow-400 bg-green-100 py-2">
             <span class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-black">Now Serving</span>
         </div>
         <div class="w-full pt-2">
@@ -44,7 +44,7 @@
                     </div>
                     <div class="text-center mt-8">
                         <span class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-serif font-black">
-                            {{ $data->user_id }}
+                            {{ $data->counter->number ?? null }}
                         </span>
                     </div>
                     @if ($loop->index + 1 == 5)
@@ -102,25 +102,32 @@
             </div>
         </div>
     </div>
+    <audio class="absolute bottom-0 z-0" id="userAudio" src="{{$audio}}" autoplay>
+        Your browser does not support the audio element.
+    </audio>
 
     @script
         <script>
-        // Enable pusher logging - don't include this in production
-        Pusher.logToConsole = true;
-    
-        var pusher = new Pusher('b5da84cc28f6c1737da5', {
-            cluster: 'ap3'
-        });
-    
-        var channel = pusher.subscribe('queues');
-        channel.bind('queues-updated', function(data) {
-            Livewire.dispatch('queues-updated');
-        });
+            // Enable pusher logging - don't include this in production
+            Pusher.logToConsole = true;
+        
+            var pusher = new Pusher('b5da84cc28f6c1737da5', {
+                cluster: 'ap3'
+            });
+        
+            var channel = pusher.subscribe('queues');
+            channel.bind('queues-updated', function(data) {
+                console.log(data);
+                Livewire.dispatch('queues-updated', {data: data});
+            });
 
-        var channel2 = pusher.subscribe('queues');
-        channel.bind('active-updated', function(data) {
-            Livewire.dispatch('active-updated');
-        });
+            Livewire.on('play-audio', data => {
+                let audio = document.getElementById("userAudio");
+
+                audio.oncanplaythrough = () => {
+                    audio.play().catch(error => console.error("Playback failed:", error));
+                };
+            });
         </script>
     @endscript
 </div>
