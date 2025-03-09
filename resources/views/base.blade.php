@@ -15,9 +15,11 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+
     </head>
     <body class="font-sans text-gray-900 antialiased">
-        <div class="h-screen flex flex-col sm:justify-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
+        <div class="w-screen sm:h-screen flex flex-col sm:justify-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
             @livewire('base.header')
 
             @livewire('base.body')

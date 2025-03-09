@@ -15,7 +15,7 @@
             {{$password2}}
         </td>
         <td class="px-6 py-4" >
-            <a wire:click='edit()' href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</button>
+            <a wire:click='edit()' href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
             |
             <a wire:click='isDeleting' href="#" class="font-medium text-red-600 dark:text-blue-500 hover:underline">Delete</a>
 

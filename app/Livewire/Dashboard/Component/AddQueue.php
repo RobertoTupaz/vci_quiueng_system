@@ -50,14 +50,13 @@ class AddQueue extends Component
                     'priority_level' => $this->priorityLevel,
                     'ticket_number' => $latestLetter->ticket_number + 1,
                     'ticket_letter' => $latestLetter->ticket_letter,
-                    'status' => false,
                 ]);
             }
 
             $this->selectedRole = 'not set';
             $this->alert(
                 'success',
-                'Ticket : ' . $addQueue->ticket_letter . $addQueue->ticket_number,
+                'Ticket : ' . $addQueue->ticket_letter .addZeroes(strlen($addQueue->ticket_number)). $addQueue->ticket_number,
                 [
                     'toast' => false,
                     'position' => 'center'

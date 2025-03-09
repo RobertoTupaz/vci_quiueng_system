@@ -42,6 +42,11 @@ new class extends Component
                             {{ __('Counter') }}
                         </x-nav-link>
                     </div>
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('admin_queues')" :active="request()->routeIs('admin_queues')" wire:navigate>
+                            {{ __('Queues') }}
+                        </x-nav-link>
+                    </div>
                 @endif
                 @if (auth()->user()->role === 'counter')
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
@@ -83,7 +88,7 @@ new class extends Component
                 </x-dropdown>
             </div>
 
-            {{-- <!-- Hamburger -->
+            <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
                 <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400 transition duration-150 ease-in-out">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
@@ -91,7 +96,7 @@ new class extends Component
                         <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
-            </div> --}}
+            </div>
         </div>
     </div>
 
@@ -100,6 +105,12 @@ new class extends Component
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('counter')" :active="request()->routeIs('counter')" wire:navigate>
+                {{ __('Counter') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin_queues')" :active="request()->routeIs('admin_queues')" wire:navigate>
+                {{ __('Queues') }}
             </x-responsive-nav-link>
         </div>
 

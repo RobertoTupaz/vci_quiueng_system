@@ -18,5 +18,11 @@ class Queue extends Model
         'queue_count'
     ];
 
-    use HasFactory;
+    public function role() {
+        return $this->belongsTo(Role::class, 'role_id');
+    }
+
+    public function counter() {
+        return $this->belongsTo(User::class,'user_id');
+    }
 }

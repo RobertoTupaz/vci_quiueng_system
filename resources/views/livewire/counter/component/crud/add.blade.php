@@ -29,7 +29,7 @@
         </div>
         <div>
             <label for="roles" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Roles</label>
-            <div class="grid grid-cols-4">
+            <div class="grid grid-cols-2 smd:grid-cols-4">
                 @foreach ($roles as $role)
                     <div class="flex items-center ps-3">
                         <input id="{{$role->id}}" wire:model='checkedRoles' type="checkbox" value="{{$role->id}}" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">

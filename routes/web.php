@@ -19,10 +19,15 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::view('dashboard', 'dashboard')->name('dashboard');
     Route::view('profile', 'profile')->name('profile');
     Route::view('counter', 'counter')->name('counter');
+    Route::view('queues', 'queues')->name('admin_queues');
 });
 
 Route::middleware(['auth', 'role:counter'])->group(function () {
     Route::view('/counter/dashboard', 'counter_ui')->name('counter_dashboard');
+});
+
+Route::get('/test', function() {
+    return view('test');
 });
 
 require __DIR__ . '/auth.php';

@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Forms;
 
+use App\Events\WebsoketDirect;
+use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
@@ -36,6 +38,12 @@ class LoginForm extends Form
             throw ValidationException::withMessages([
                 'form.email' => trans('auth.failed'),
             ]);
+        }
+
+        if(Auth::user()->role = 'counter') {
+            $authenticatedUser = User::find(Auth::user()->id);
+            $authenticatedUser->status = true;
+            $authenticatedUser->save();
         }
 
         RateLimiter::clear($this->throttleKey());

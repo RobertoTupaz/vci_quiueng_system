@@ -1,45 +1,49 @@
 <div class="w-full h-base-body grid grid-cols-12 gap-2">
     <div class="col-span-12 sm:col-span-8 bg-green-100 text-white text-center shadow-xl rounded-2xl border">{{-- transform hover:scale-105 transition-all duration-300 --}}
         <div class="w-full text-center text-yellow-400 bg-green-100 py-2">
-            <span class="text-7xl font-serif font-black">Now Serving</span>
+            <span class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-black">Now Serving</span>
         </div>
         <div class="w-full pt-2">
 
             <div class="grid grid-cols-3 text-green-600">
                 <div class="text-center">
-                    <span class="text-5xl font-serif font-black dark:text-white">
+                    <span class="hidden sm:block text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-black dark:text-white">
                         Transaction
+                    </span>
+                    <span class="block sm:hidden text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-black dark:text-white">
+                        Trans..
                     </span>
                 </div>
                 <div class="text-center">
-                    <span class="text-5xl font-serif font-black dark:text-white">
+                    <span class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-black dark:text-white">
                         Ticket
                     </span>
                 </div>
                 <div class="text-center">
-                    <span class="text-5xl font-serif font-black dark:text-white">
+                    <span class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-black dark:text-white">
                         Counter
                     </span>
                 </div>
             </div>
 
             <div class="grid grid-cols-3 mt-8 text-gray-900 dark:text-white">
-                @php
-                    $collection = [1, 2, 3, 4, 5];
-                @endphp
-                @foreach ($queues as $data)
+                
+                @foreach ($ongoingQeues as $data)
                     <div class="text-center mt-8">
-                        <span class="text-4xl font-serif font-black ">
+                        <span class="hidden sm:block text-xl sm:text-2xl md:text-3xl lg:text-4xl font-serif font-black ">
                             Transaction  {{ $loop->index + 1 }}
                         </span>
-                    </div>
-                    <div class="text-center mt-8">
-                        <span class="text-4xl font-serif font-black">
-                            {{ $data->ticker_letter }} {{ $data->ticket_number }}
+                        <span class="block sm:hidden text-xl sm:text-2xl md:text-3xl lg:text-4xl font-serif font-black ">
+                            Trans..  {{ $loop->index + 1 }}
                         </span>
                     </div>
                     <div class="text-center mt-8">
-                        <span class="text-4xl font-serif font-black">
+                        <span class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-serif font-black">
+                            {{ $data->ticket_letter }}{{ addZeroes(strlen($data->ticket_number)) }}{{ $data->ticket_number }}
+                        </span>
+                    </div>
+                    <div class="text-center mt-8">
+                        <span class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-serif font-black">
                             {{ $data->user_id }}
                         </span>
                     </div>
@@ -51,13 +55,13 @@
         </div>
     </div>
     <div class="col-span-12 sm:col-span-4 grid">
-        <div>
+        <div class="flex justify-center">
             <video id="video" class="rounded-lg h-full" controls autoplay muted>
                 <source src="videos/vci.mp4" type="video/mp4">
 
                 Your browser does not support the video tag.
             </video>
-            <style>
+            {{-- <style>
                 #video-bg {
                 position: fixed;
                 top: 0; right: 0; bottom: 0; left: 0;
@@ -85,17 +89,38 @@
                     object-fit: cover;
                 }
                 }
-            </style>
+            </style> --}}
         </div>
         <div>
-            <div class="text-center outline font-bold text-4xl">
+            <div class="text-center outline font-bold text-xl sm:text-2xl md:text-3xl lg:text-4xl">
                 <span>Waiting</span>
             </div>
             <div class="grid grid-cols-12">
                 @foreach ($queues as $data)
-                    <span class="py-2 text-3xl col-span-4 text-center font-bold">{{ $data->ticker_letter }} {{ $data->ticket_number }}</span>
+                    <span class="py-2 text-md sm:text-xl md:text-2xl lg:text-3xl col-span-4 text-center font-bold">{{ $data->ticket_letter }}{{ addZeroes(strlen($data->ticket_number)) }}{{ $data->ticket_number }}</span>
                 @endforeach
             </div>
         </div>
     </div>
+
+    @script
+        <script>
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+    
+        var pusher = new Pusher('b5da84cc28f6c1737da5', {
+            cluster: 'ap3'
+        });
+    
+        var channel = pusher.subscribe('queues');
+        channel.bind('queues-updated', function(data) {
+            Livewire.dispatch('queues-updated');
+        });
+
+        var channel2 = pusher.subscribe('queues');
+        channel.bind('active-updated', function(data) {
+            Livewire.dispatch('active-updated');
+        });
+        </script>
+    @endscript
 </div>
