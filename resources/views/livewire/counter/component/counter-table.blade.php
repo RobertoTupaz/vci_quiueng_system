@@ -24,7 +24,7 @@
                         Roles
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Username
+                        Email
                     </th>
                     <th scope="col" class="px-6 py-3">
                         Password

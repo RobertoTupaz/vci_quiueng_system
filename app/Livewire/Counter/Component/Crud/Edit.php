@@ -65,16 +65,10 @@ class Edit extends Component
             // $this->resetExcept('roles');
         }
         if ($query) {
-            $this->alert('success', 'Basic Alert');
+            $this->alert('success', 'Counter Updated Successfully!');
             $this->cancelEdit();
             $this->dispatch('update-row', id: $this->id);
         }
-    }
-
-    public function notif()
-    {
-        // $this->alert('success', 'Basic Alert');
-        //success, warning, error, info, question
     }
 
     public function cancelEdit()

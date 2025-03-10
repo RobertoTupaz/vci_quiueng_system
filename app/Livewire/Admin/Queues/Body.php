@@ -9,8 +9,9 @@ class Body extends Component
 {
     public $queues = [];
 
-    public function mount() {
-        $this->queues = Queue::all();
+    public function mount()
+    {
+        $this->queues = Queue::orderBy('created_at', 'desc')->get();
     }
     public function render()
     {

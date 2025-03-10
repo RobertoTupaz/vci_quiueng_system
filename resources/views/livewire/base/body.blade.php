@@ -102,7 +102,7 @@
             </div>
         </div>
     </div>
-    <audio class="absolute bottom-0 z-0" id="userAudio" src="{{$audio}}" autoplay>
+    <audio class="absolute bottom-0 z-0" id="userAudio" src="{{$audio}}">
         Your browser does not support the audio element.
     </audio>
 
