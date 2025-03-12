@@ -24,6 +24,11 @@ class RoleMiddleware
             if (Auth::user()->role === "counter") {
                 return redirect('/counter/dashboard');
             }
+
+            if (Auth::user()->role === "queuer") {
+                return redirect('/queuer');
+            }
+
             abort(403, 'Unauthorized access'); // Forbidden
         }
 

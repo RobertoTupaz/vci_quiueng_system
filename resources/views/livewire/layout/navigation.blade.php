@@ -30,6 +30,13 @@ new class extends Component
                         <span class="text-3xl font-bold">VCI</span>
                     </div>
                 </div>
+                @if (auth()->user()->role === 'queuer')
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('queuer_dashboard')" wire:navigate>
+                            {{ __('Dashboard') }}
+                        </x-nav-link>
+                    </div>
+                @endif
                 <!-- Navigation Links -->
                 @if (auth()->user()->role === 'admin')
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">

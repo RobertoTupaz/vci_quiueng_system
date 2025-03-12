@@ -12,14 +12,14 @@ use Livewire\Attributes\On;
 
 class Body extends Component
 {
+    public $upcomingQueues;
     public $queue;
     public $doneQueue;
     public $audio;
-    public $counterQueuesWithSameRole;
-
+    public $counterRoles;
     public function serveQueue()
     {
-        $counterRoles = Auth::user()->roles()->pluck('roles.id')->toArray();
+        $counterRoles = $this->counterRoles;
         $queue = Queue::where('status', 'new')
             ->where(function ($query) use ($counterRoles) {
                 foreach ($counterRoles as $role_id) {
@@ -37,23 +37,8 @@ class Body extends Component
             $queue->status = 'ongoing';
             $queue->save();
 
-            $this->getQueuesWithSameRole();
+            $this->getUpcommingQueue();
         }
-    }
-
-    public function getQueuesWithSameRole()
-    {
-        $counterRoles = Auth::user()->roles()->pluck('roles.id')->toArray();
-        $this->counterQueuesWithSameRole = Queue::where('status', 'new')
-            ->where(function ($query) use ($counterRoles) {
-                foreach ($counterRoles as $role_id) {
-                    $query->orWhere('role_id', $role_id);
-                }
-            })
-            ->orderBy('priority_level', 'desc')
-            ->orderBy('created_at', 'asc')
-            ->get();
-
     }
 
     public function getOngoingQueue()
@@ -69,7 +54,8 @@ class Body extends Component
     {
         $this->getOngoingQueue();
         $this->audio = asset('audio/speech.mp3');
-        $this->getQueuesWithSameRole();
+        $this->counterRoles = Auth::user()->roles()->pluck('roles.id')->toArray();
+        $this->getUpcommingQueue();
     }
 
     public function next()
@@ -168,10 +154,19 @@ class Body extends Component
         }
     }
 
-    public function notify()
-    {
-
+    public function getUpcommingQueue() {
+        $counterRoles = $this->counterRoles;
+        $this->upcomingQueues = Queue::where('status', 'new')
+        ->where(function ($query) use ($counterRoles) {
+            foreach ($counterRoles as $role_id) {
+                $query->orWhere('role_id', $role_id);
+            }
+        })
+        ->orderBy('priority_level', 'desc')
+        ->orderBy('created_at', 'asc')
+        ->get();
     }
+
     public function render()
     {
         return view('livewire.counter-u-i.body');

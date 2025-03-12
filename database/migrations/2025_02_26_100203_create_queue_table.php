@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::create('queues', function (Blueprint $table) {
             $table->id();
+            $table->string('name')->nullable();
             $table->foreignId('role_id')->constrained(
                 table: 'roles',
                 indexName: 'transaction_role'

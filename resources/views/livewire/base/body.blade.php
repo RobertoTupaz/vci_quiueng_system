@@ -31,7 +31,7 @@
                 @foreach ($ongoingQeues as $data)
                     <div class="text-center mt-8">
                         <span class="hidden sm:block text-xl sm:text-2xl md:text-3xl lg:text-4xl font-serif font-black ">
-                            Transaction  {{ $loop->index + 1 }}
+                            {{ $data->role->name }}
                         </span>
                         <span class="block sm:hidden text-xl sm:text-2xl md:text-3xl lg:text-4xl font-serif font-black ">
                             Trans..  {{ $loop->index + 1 }}

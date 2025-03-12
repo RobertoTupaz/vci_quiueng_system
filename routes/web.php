@@ -26,6 +26,10 @@ Route::middleware(['auth', 'role:counter'])->group(function () {
     Route::view('/counter/dashboard', 'counter_ui')->name('counter_dashboard');
 });
 
+Route::middleware(['auth', 'role:queuer'])->group(function () {
+    Route::view('/queuer', 'queuer')->name('queuer_dashboard');
+});
+
 Route::get('/test', function() {
     return view('test');
 });

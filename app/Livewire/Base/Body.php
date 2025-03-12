@@ -19,7 +19,6 @@ class Body extends Component
     public function mount()
     {
         $this->getNewQueues();
-        // $this->getActiveCounter();
         $this->getOngoingQueues();
         $this->audio = asset('audio/speech.mp3');
     }
@@ -63,15 +62,6 @@ class Body extends Component
 
         $timestamp = Carbon::now()->timestamp;
         return asset('audio/speech.mp3?t=' . $timestamp);
-    }
-
-    public function getActiveCounter()
-    {
-        $activeCounter = User::where('role', 'counter')
-            ->where('status', true)
-            ->get();
-
-        $this->activeCounter = $activeCounter;
     }
 
     public function render()

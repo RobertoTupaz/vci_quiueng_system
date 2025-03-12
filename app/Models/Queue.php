@@ -15,7 +15,8 @@ class Queue extends Model
         'priority_level',
         'status',
         'user_id',
-        'queue_count'
+        'queue_count',
+        'name'
     ];
 
     public function role() {
