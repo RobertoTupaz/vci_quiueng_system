@@ -3,6 +3,7 @@
 namespace App\Livewire\Base;
 
 use App\Models\Queue;
+use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;
 use Livewire\Component;
@@ -15,34 +16,38 @@ class Body extends Component
     public $ongoingQeues = [];
 
     public $audio;
+    public $roles;
 
     public function mount()
     {
+        $this->setRoles();
         $this->getNewQueues();
-        $this->getOngoingQueues();
+        // $this->getOngoingQueues();
         $this->audio = asset('audio/speech.mp3');
     }
 
-    // #[On('active-updated')]
-    public function getOngoingQueues()
-    {
-        $this->ongoingQeues = Queue::where('status', 'ongoing')->get();
+
+    #[On('roles-updated')]
+    public function setRoles() {
+        $this->roles = Role::all();
     }
 
     #[On('queues-updated')]
     public function queuesUpdated($data)
     {
-        $this->audio = $data;
+        $this->audio = $data[0];
         $this->getNewQueues();
+        $this->dispatch('update-ongoing', $data[1]);
     }
+
     public function getNewQueues()
     {
         $this->queues = Queue::where('status', 'new')
             ->orderBy('priority_level', 'desc')
-            ->limit(12)
+            ->limit(9)
             ->get();
 
-        $this->getOngoingQueues();
+        // $this->getOngoingQueues();
         $this->dispatch('play-audio', ['data' => '$this->audio']);
     }
 

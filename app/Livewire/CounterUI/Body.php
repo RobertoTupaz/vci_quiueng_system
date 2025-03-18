@@ -68,14 +68,7 @@ class Body extends Component
 
         $this->getOngoingQueue();
         $this->serveQueue();
-
-        $this->audio = $this->setAudio($this->getTicket());
-        if ($this->audio) {
-            $this->dispatch('play-audio', ['data' => '$this->audio']);
-            new WebsoketDirect($this->audio);
-        } else {
-            new WebsoketDirect();
-        }
+        $this->notifyBase();
     }
 
     public function notifyBase()
@@ -83,7 +76,7 @@ class Body extends Component
         $this->audio = $this->setAudio($this->getTicket());
         if ($this->audio) {
             $this->dispatch('play-audio', ['data' => '$this->audio']);
-            new WebsoketDirect($this->audio);
+            new WebsoketDirect($this->audio, Auth::user()->number);
         } else {
             new WebsoketDirect();
         }
@@ -129,14 +122,7 @@ class Body extends Component
 
         $this->getDone();
         $this->getOngoingQueue();
-
-        $this->audio = $this->setAudio($this->getTicket());
-        if ($this->audio) {
-            $this->dispatch('play-audio', ['data' => '$this->audio']);
-            new WebsoketDirect($this->audio);
-        } else {
-            new WebsoketDirect();
-        }
+        $this->notifyBase();
     }
 
     public function getDone()

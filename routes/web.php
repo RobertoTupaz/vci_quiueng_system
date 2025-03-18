@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,6 +21,8 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::view('profile', 'profile')->name('profile');
     Route::view('counter', 'counter')->name('counter');
     Route::view('queues', 'queues')->name('admin_queues');
+
+    Route::post('/save/video', [Controller::class, 'saveVideo'])->name('save_video');
 });
 
 Route::middleware(['auth', 'role:counter'])->group(function () {

@@ -14,7 +14,7 @@
     );
 
     private $pusher;
-    public function __construct($data = null) {
+    public function __construct($data = null, $id = null) {
       $this->pusher = new Pusher(
         'b5da84cc28f6c1737da5',
         'ddc241b500b21a8b6edd',
@@ -25,7 +25,7 @@
       $message = 'null';
 
       // $this->pusher->trigger('queues', 'active-updated', $message);
-      $this->pusher->trigger('queues', 'queues-updated', $data);
+      $this->pusher->trigger('queues', 'queues-updated', [$data, $id]);
 
       // if($data == 'auth') {
 

@@ -15,8 +15,8 @@ export default {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
             height: {
-                'base-header': '12vh',
-                'base-body': '88vh',
+                'base-header': '10vh',
+                'base-body': '90vh',
             }
         },
     },

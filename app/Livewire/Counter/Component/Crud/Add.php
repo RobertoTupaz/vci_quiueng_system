@@ -55,14 +55,20 @@ class Add extends Component
         }
     }
 
-    public function getCheckedItems()
-    {
-        dd($this->checkedRoles); // Debug: Display checked items
-    }
-
     public function getRoles()
     {
         $this->roles = Role::all();
+    }
+
+    public function deleteRoles() {
+        foreach ($this->checkedRoles as $key) {
+            $deletedRoles = Role::where('id', $key)->delete();
+        }
+
+        if($deletedRoles) {
+            $this->getRoles();
+            $this->alert('success', 'Role Deleted Sucessfully!');
+        }
     }
 
     public function mount()
