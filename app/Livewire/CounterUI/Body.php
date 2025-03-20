@@ -60,7 +60,6 @@ class Body extends Component
 
     public function next()
     {
-
         if ($this->queue) {
             $this->queue->status = 'done';
             $this->queue->save();
@@ -76,7 +75,7 @@ class Body extends Component
         $this->audio = $this->setAudio($this->getTicket());
         if ($this->audio) {
             $this->dispatch('play-audio', ['data' => '$this->audio']);
-            new WebsoketDirect($this->audio, Auth::user()->number);
+            new WebsoketDirect($this->audio, Auth::user()->roles);
         } else {
             new WebsoketDirect();
         }

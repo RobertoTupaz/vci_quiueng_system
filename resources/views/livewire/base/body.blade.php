@@ -71,7 +71,6 @@
         
             var channel = pusher.subscribe('queues');
             channel.bind('queues-updated', function(data) {
-                // console.log(data);
                 Livewire.dispatch('queues-updated', {data: data});
             });
 

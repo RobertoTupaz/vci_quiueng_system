@@ -12,5 +12,10 @@ class Role extends Model
         'name'
     ];
 
+    public function counters() {
+        return $this->belongsToMany(User::class, 'counter_roles')
+        ->withTimestamps();
+    }
+
     use HasFactory;
 }

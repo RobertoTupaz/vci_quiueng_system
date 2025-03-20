@@ -6,8 +6,10 @@ use App\Models\CurrentLetter;
 use App\Models\Queue;
 use App\Models\Role;
 use App\Models\Transaction;
+use App\Models\User;
 use Livewire\Component;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+use SebastianBergmann\LinesOfCode\Counter;
 
 class AddQueue extends Component
 {
@@ -33,6 +35,9 @@ class AddQueue extends Component
             $latestLetter = Queue::where('role_id', $this->selectedRole)->latest()->first();
             $currentLetter = CurrentLetter::find(1);
 
+            $roleQuery = Role::find($this->selectedRole);
+            $counter = $roleQuery->counters;
+
             if ($latestLetter == null) {
                 $newLetter = $this->getLetter($currentLetter->letter);
                 $addQueue = Queue::create([
@@ -41,6 +46,7 @@ class AddQueue extends Component
                     'ticket_number' => 1,
                     'ticket_letter' => $newLetter,
                     'name' => $this->name,
+                    'user_id' => $counter[0]?->id
                 ]);
 
                 $currentLetter->letter = $newLetter;
@@ -52,6 +58,7 @@ class AddQueue extends Component
                     'ticket_number' => $latestLetter->ticket_number + 1,
                     'ticket_letter' => $latestLetter->ticket_letter,
                     'name' => $this->name,
+                    'user_id' => $counter[0]?->id
                 ]);
             }
 

@@ -66,6 +66,11 @@ class User extends Authenticatable
         return $this->roles()->where('name', $roleName)->exists();
     }
 
+    public function hasRoleID($id)
+    {
+        return $this->roles()->where('id', $id)->exists();
+    }
+
     public function isCounter()
     {
         return $this->role === 'counter';
